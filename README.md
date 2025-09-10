@@ -66,8 +66,6 @@ This is part of the **F5XC WAAP (Web Application & API Protection)** service. It
 * Requires **regular signature updates** to stay current.
 * Can be bypassed by bots that randomize headers or mimic legitimate clients.
 
-**Reference:** [F5XC WAAP WAF protection docs](https://docs.cloud.f5.com/docs-v2/security/waap/waap-overview).
-
 ---
 
 ### 2. **Bot Protection in HTTP Load Balancer Configuration**
@@ -96,7 +94,6 @@ This is the **advanced Bot Defense capability** built into the HTTP LB object. I
 * Higher complexity in deployment (JavaScript injection, SDK integration).
 * Slight increase in client-side latency due to challenges.
 
-**Reference:** [F5XC Bot Defense docs](https://docs.cloud.f5.com/docs-v2/security/bot-defense/overview).
 
 ---
 

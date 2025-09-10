@@ -1,0 +1,19 @@
+# Ignore provider schemas
+schemas/
+provider_schemas/
+
+# Ignore local development files
+promp.txt
+.clinerules
+
+# Ignore temporary project folders
+f5xc-lb-waap-examples/
+terraform-f5xc/
+
+
+# Ignore Terraform state and configuration files
+**/.terraform/
+**/.terraform.lock.hcl
+**/terraform.tfvars
+**/terraform.tfstate
+**/terraform.tfstate.backup

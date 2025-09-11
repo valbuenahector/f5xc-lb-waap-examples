@@ -25,7 +25,7 @@ resource "volterra_origin_pool" "pool-tf-juiceshop" {
     no_mtls = true
     }
 
-    no_tls = false
+    no_tls = true
     // The port used by the origin server
     port = "80"
     // The endpoint selection policy

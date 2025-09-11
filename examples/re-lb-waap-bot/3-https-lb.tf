@@ -41,7 +41,8 @@ resource "volterra_http_loadbalancer" "lb-app1-tf" {
         name = volterra_app_firewall.waap-tf.name
         namespace = var.f5xc_namespace
     }
-    multi_lb_app = true
+    # Argument is deprecated
+    # multi_lb_app = true
     user_id_client_ip = true
     
     // Enable source IP stickiness
@@ -57,7 +58,9 @@ resource "volterra_http_loadbalancer" "lb-app1-tf" {
             protected_app_endpoints {
                 http_methods = ["METHOD_POST"]
                 flow_label {
-                    authentication {login}
+                    authentication {
+                        login_mfa = true
+                    }
                 }
                 metadata {
                     name = "login-endpoint"

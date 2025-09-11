@@ -12,11 +12,11 @@ resource "volterra_app_firewall" "waap-tf" {
   // Use the default blocking page
   use_default_blocking_page = true
   // Use the default bot protection settings
-  default_bot_setting = true
-  // Use the default detection settings
+  # default_bot_setting = true
+  // Use the default detection settings - Argument is deprecated
   default_detection_settings = true
-  // Use the load balancer's enforcement mode (blocking/monitoring)
-  use_loadbalancer_setting = true
+  // Use the load balancer's enforcement mode (blocking/monitoring) - Argument is deprecated
+  #use_loadbalancer_setting = true 
   // Set the enforcement mode to blocking
   blocking = true
 }

@@ -14,6 +14,8 @@ terraform-f5xc/
 # Ignore Terraform state and configuration files
 **/.terraform/
 **/.terraform.lock.hcl
+**/.terraform.lock.info
 **/terraform.tfvars
 **/terraform.tfstate
 **/terraform.tfstate.backup
+**/terraform.tfstate.info

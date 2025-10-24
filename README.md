@@ -7,6 +7,11 @@ This repository provides verified, runnable Terraform examples for F5XC Load Bal
 *   [RE Load Balancer Basic](./docs/re-lb-basic.md)
 *   [RE WAAP and Bot Defense](./docs/re-lb-waap-bot.md)
 *   [RE WAAP, Bot Defense and CDN](./docs/re-lb-waap-bot-cdn.md)
+*   [CE Load Balancer Basic](./docs/ce-lb-basic.md)
+*   [CE WAAP](./docs/ce-lb-waap-bot.md)
+*   [RE on CE Load Balancer Basic](./docs/re-ce-lb-basic.md)
+*   [RE on CE WAAP and Bot Defense](./docs/re-ce-lb-waap-bot.md)
+*   [RE on CE WAAP, Bot Defense and CDN](./docs/re-ce-lb-waap-bot-cdn.md)
 
 ## Getting Started
 

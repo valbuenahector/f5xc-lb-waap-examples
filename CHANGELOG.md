@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- New example for RE and CE Load Balancer with WAAP, Bot Defense, and CDN.
+
+### Added
+- Added `re-ce-lb-waap-bot` example for an HTTP Load Balancer with WAAP and Bot Defense on a Customer Edge site using a Regional Edge.
+- Added `re-ce-lb-basic` example for a basic HTTP Load Balancer on a Customer Edge site using a Regional Edge.
+- Added `ce-lb-waap-bot` example for an HTTP Load Balancer with WAAP on a Customer Edge site.
+- Added `ce-lb-basic` example for a basic HTTP Load Balancer on a Customer Edge site.
 - Initial project structure.
 - Added `.gitignore` to exclude state files, provider schemas, and local configuration.
 - Added `re-lb-basic` example for a basic HTTP Load Balancer on a Regional Edge site.
@@ -18,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a detailed "Bot Protection Clarification" section to the main `README.md` and relevant example documentation.
 
 ### Changed
+- Updated the `ce-lb-waap-bot` example to use a custom certificate.
 - Updated the `README.md` to link to the documentation files in the `/docs` directory.
 - Refactored the `re-lb-basic` example into multiple Terraform files for better organization.
 

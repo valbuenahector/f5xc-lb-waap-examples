@@ -17,13 +17,13 @@ resource "volterra_cdn_loadbalancer" "cdn-distri-app1-tf" {
     origin_request_timeout = "100s"
 
     public_name {
-        dns_name = "juiceshop.hvf5lab.com"
+        dns_name = "cdnapp.hvf5lab.com"
         refresh_interval = "20"
     }
 
     origin_servers {
         public_name {
-           dns_name = "juiceshop.hvf5lab.com"
+           dns_name = "cdnapp.hvf5lab.com"
            refresh_interval = "20"
         }
       }

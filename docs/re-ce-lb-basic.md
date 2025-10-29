@@ -2,30 +2,25 @@
 
 This example deploys a basic HTTP load balancer on an F5XC Customer Edge (CE) site.
 
-## Prerequisites
-
-- F5XC account
-- F5XC API certificate
-- F5XC CE site deployed
-
 ## Usage
 
 1. Clone the repository
 2. Navigate to the `examples/re-ce-lb-basic` directory
-3. Create a `terraform.tfvars` file with the following variables:
-
-```
-f5xc_api_p12_file = "<PATH_TO_YOUR_P12_FILE>"
-f5xc_api_url      = "<YOUR_F5XC_API_URL>"
-f5xc_tenant       = "<YOUR_F5XC_TENANT>"
-f5xc_namespace    = "default"
-app_domain        = "<YOUR_APP_DOMAIN>"
-site_name         = "<YOUR_CE_SITE_NAME>"
-```
-
+3. Create a `terraform.tfvars` file with your F5XC tenant credentials.
 4. Run `terraform init`
 5. Run `terraform plan`
 6. Run `terraform apply`
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| f5xc_api_p12_file | Path to F5XC API credential file | `string` | n/a | yes |
+| f5xc_api_url | F5XC API URL | `string` | n/a | yes |
+| f5xc_tenant | F5XC tenant name | `string` | n/a | yes |
+| f5xc_namespace | F5XC namespace | `string` | `"default"` | no |
+| app_domain | Application domain | `string` | n/a | yes |
+| site_name | Name of the F5XC site | `string` | n/a | yes |
 
 ## Verification
 

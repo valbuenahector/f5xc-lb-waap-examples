@@ -24,7 +24,7 @@ resource "volterra_origin_pool" "ce_juiceshop" {
       site_locator {
         site {
           namespace = "system"
-          name      = "hv-aws-us-east-1-ce"
+          name      = var.site_name
         }
       }
     }

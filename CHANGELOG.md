@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a "Prerequisites" section to the main `README.md` to clarify the required environment variables (`TF_VAR_f5xc_api_p12_file` and `VES_P12_PASSWORD`).
 - New example for RE and CE Load Balancer with WAAP, Bot Defense, and CDN.
 
 ### Added
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a detailed "Bot Protection Clarification" section to the main `README.md` and relevant example documentation.
 
 ### Changed
+- Updated all examples to use variables for `app_domain`, `site_name`, and `origin_dns_name`.
 - Updated the `ce-lb-waap-bot` example to use a custom certificate.
 - Updated the `README.md` to link to the documentation files in the `/docs` directory.
 - Refactored the `re-lb-basic` example into multiple Terraform files for better organization.

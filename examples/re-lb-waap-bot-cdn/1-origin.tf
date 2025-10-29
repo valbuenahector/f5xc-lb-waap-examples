@@ -10,7 +10,7 @@ resource "volterra_origin_pool" "pool-tf-juiceshop" {
     // The origin server configuration
     origin_servers {
         public_name {
-            dns_name = "juiceshop.hvf5lab.com"
+            dns_name = var.origin_dns_name
         }
         labels = {}
     }

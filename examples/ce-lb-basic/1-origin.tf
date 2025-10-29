@@ -29,7 +29,7 @@ resource "volterra_origin_pool" "pool-tf-ce-juiceshop" {
       site_locator {
         site {
           namespace = "system"
-          name      = "hv-aws-us-east-1-ce"
+          name      = var.site_name
         }
       }
     }

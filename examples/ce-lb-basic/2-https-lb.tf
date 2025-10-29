@@ -9,7 +9,7 @@ resource "volterra_http_loadbalancer" "lb-app1-tf-ce" {
     namespace = var.f5xc_namespace
     
     // The domains that will be served by this load balancer
-    domains = ["ceonly.hvf5lab.com"]
+    domains = [var.app_domain]
     
     // HTTPS configuration with custom certificate
     https {
@@ -45,7 +45,7 @@ resource "volterra_http_loadbalancer" "lb-app1-tf-ce" {
                 network = "SITE_OUTSITE_NETWORK"
                 site {
                     namespace = "system"
-                    name = "hv-aws-us-east-1-ce"
+                    name = var.site_name
                 }
             }
         }

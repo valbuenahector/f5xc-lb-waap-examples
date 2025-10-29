@@ -10,3 +10,13 @@ variable "f5xc_tenant"      {
 variable "f5xc_namespace"   { 
     type = string
 }
+
+variable "site_name" {
+  type        = string
+  description = "CE site name"
+}
+
+variable "app_domain" {
+  type        = string
+  description = "Application domain"
+}

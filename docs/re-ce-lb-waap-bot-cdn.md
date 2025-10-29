@@ -19,6 +19,7 @@ This example demonstrates how to deploy a simple application on a Customer Edge 
 | `f5xc_api_p12_file` | Path to F5 XC API Certificate File | `string` | n/a | yes |
 | `app_domain` | Application Domain | `string` | n/a | yes |
 | `site_name` | F5 XC CE Site Name | `string` | n/a | yes |
+| `origin_dns_name` | Origin DNS Name | `string` | n/a | yes |
 
 ## Outputs
 

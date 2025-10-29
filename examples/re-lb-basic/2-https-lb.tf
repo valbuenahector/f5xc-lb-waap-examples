@@ -9,7 +9,7 @@ resource "volterra_http_loadbalancer" "lb-app1-tf" {
     namespace = var.f5xc_namespace
     
     // The domains that will be served by this load balancer
-    domains = ["apptf1.wwt.xcsdemo.com"]
+    domains = [var.app_domain]
     // HTTPS configuration with automatic certificate management
     https_auto_cert {
         add_hsts = true

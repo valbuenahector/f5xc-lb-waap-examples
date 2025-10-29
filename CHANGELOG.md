@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added a detailed explanation of the CDN traffic flow to the `re-lb-waap-bot-cdn` and `re-ce-lb-waap-bot-cdn` documentation.
 - Added a "Prerequisites" section to the main `README.md` to clarify the required environment variables (`TF_VAR_f5xc_api_p12_file` and `VES_P12_PASSWORD`).
 - New example for RE and CE Load Balancer with WAAP, Bot Defense, and CDN.
 

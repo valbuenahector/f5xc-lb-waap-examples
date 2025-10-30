@@ -4,7 +4,11 @@ This example shows how to create an HTTP Load Balancer on a Regional Edge (RE) s
 
 ## Prerequisites
 
-Before running this example, you must create a `terraform.tfvars` file in the `examples/re-lb-waap-bot-cdn` directory with your F5XC tenant credentials. You can use the `terraform.tfvars.example` file in the same directory as a template.
+- F5 XC Tenant
+- F5 XC API Certificate
+- AWS Account (for CE deployment)
+- Terraform Cloud or Terraform CLI
+
 
 ## Files
 
@@ -114,7 +118,10 @@ This is the **advanced Bot Defense capability** built into the HTTP LB object. I
 * Use **WAF Signature-Based Bot Protection** as a **baseline layer** (blocks obvious noise).
 * Enable **Bot Defense on HTTP LB** for **apps with high-value transactions** (logins, banking, e-commerce) where credential stuffing, scraping, or fraud is a concern.
 
-# F5 Distributed Cloud (F5XC) — L7 Route to CDN Origin Processing
+
+## CDN Flow Clarification
+
+## F5 Distributed Cloud (F5XC) — L7 Route to CDN Origin Processing
 
 ![L7 Route to CDN Origin Processing](../common/cdn-flow.png)
 
@@ -206,25 +213,11 @@ This flow is ideal for dynamic, API-driven, or authenticated content that should
 
 ---
 
-## 5. Combined Behavior Summary
-
-| Condition | Route Match | CDN Involved | Cache Behavior | Origin Access |
-|------------|--------------|---------------|----------------|----------------|
-| **Static Content** (`.css`, `.js`, `.jpg`, `.png`, etc.) | ✅ Yes | ✅ Yes | Cache hit or fetch from origin | Optional, on cache miss |
-| **Dynamic/API Requests** | ❌ No | ❌ No | None | Always accessed |
-
----
-
-## 6. Key Takeaways
+## 5. Key Takeaways
 
 - The **HTTP LB** acts as the **decision point**, performing **L7 route evaluation** before determining whether to forward to the **CDN** or **Origin**.
 - **CDN caching** reduces latency and offloads repetitive requests.
 - **Direct-origin routing** ensures real-time processing for API or user-specific content.
 - Both flows benefit from **end-to-end security posture** (TLS, WAF, Bot, and DDoS protection).
 
----
 
-**References:**
-- [F5XC HTTP Load Balancer (WAAP)](https://docs.cloud.f5.com/docs-v2/applications/http-load-balancer)
-- [F5XC CDN Load Balancer](https://docs.cloud.f5.com/docs-v2/applications/cdn)
-- [F5XC Caching and Route Policies](https://docs.cloud.f5.com/docs-v2/applications/caching)

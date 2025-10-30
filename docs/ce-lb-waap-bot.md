@@ -2,6 +2,12 @@
 
 This example shows how to create an HTTP Load Balancer on a Customer Edge (CE) site with a Web Application Firewall (WAF).
 
+## Provider Requirements
+
+| Name | Version |
+|------|---------|
+| volterra | ~> 0.11.20 |
+
 ## Files
 
 *   `1-origin.tf`: This file defines the origin pool, which is a group of servers that will handle the traffic for the load balancer.

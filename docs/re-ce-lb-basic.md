@@ -2,6 +2,12 @@
 
 This example deploys a basic HTTP load balancer on an F5XC Customer Edge (CE) site.
 
+## Provider Requirements
+
+| Name | Version |
+|------|---------|
+| volterra | ~> 0.11.20 |
+
 ## Usage
 
 1. Clone the repository

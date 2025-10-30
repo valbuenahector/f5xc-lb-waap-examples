@@ -6,6 +6,12 @@ This example shows how to create a basic HTTP Load Balancer on a Regional Edge (
 
 Before running this example, you must create a `terraform.tfvars` file in the `examples/re-lb-basic` directory with your F5XC tenant credentials. You can use the `terraform.tfvars.example` file in the same directory as a template.
 
+## Provider Requirements
+
+| Name | Version |
+|------|---------|
+| volterra | ~> 0.11.20 |
+
 ## Files
 
 *   `1-origin.tf`: This file defines the origin pool, which is a group of servers that will handle the traffic for the load balancer.

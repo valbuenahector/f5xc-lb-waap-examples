@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a detailed "Bot Protection Clarification" section to the main `README.md` and relevant example documentation.
 
 ### Changed
+- Updated each example documention with the provider requirements to show the verion used to test the exmaple
 - Updated all examples to use variables for `app_domain`, `site_name`, and `origin_dns_name`.
 - Updated the `ce-lb-waap-bot` example to use a custom certificate.
 - Updated the `README.md` to link to the documentation files in the `/docs` directory.

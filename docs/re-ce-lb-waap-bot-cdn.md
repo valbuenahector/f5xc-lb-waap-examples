@@ -9,6 +9,12 @@ This example demonstrates how to deploy a simple application on a Customer Edge 
 - AWS Account (for CE deployment)
 - Terraform Cloud or Terraform CLI
 
+## Provider Requirements
+
+| Name | Version |
+|------|---------|
+| volterra | ~> 0.11.20 |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |

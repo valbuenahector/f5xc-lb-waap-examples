@@ -9,6 +9,11 @@ This example shows how to create an HTTP Load Balancer on a Regional Edge (RE) s
 - AWS Account (for CE deployment)
 - Terraform Cloud or Terraform CLI
 
+## Provider Requirements
+
+| Name | Version |
+|------|---------|
+| volterra | ~> 0.11.20 |
 
 ## Files
 
@@ -219,5 +224,3 @@ This flow is ideal for dynamic, API-driven, or authenticated content that should
 - **CDN caching** reduces latency and offloads repetitive requests.
 - **Direct-origin routing** ensures real-time processing for API or user-specific content.
 - Both flows benefit from **end-to-end security posture** (TLS, WAF, Bot, and DDoS protection).
-
-

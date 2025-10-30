@@ -116,7 +116,7 @@ This is the **advanced Bot Defense capability** built into the HTTP LB object. I
 
 # F5 Distributed Cloud (F5XC) — L7 Route to CDN Origin Processing
 
-![L7 Route to CDN Origin Processing](common/cdn-flow.png)
+![L7 Route to CDN Origin Processing](../common/cdn-flow.png)
 
 This diagram illustrates the **two possible traffic paths** when an F5XC **HTTP Load Balancer (WAAP)** is configured with an **L7 route** that forwards specific requests (e.g., static content) to a **CDN distribution**.  
 The numbered callouts (①–⑥) in the image correspond to the detailed steps below.

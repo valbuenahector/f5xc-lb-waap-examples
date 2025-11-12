@@ -76,19 +76,69 @@ resource "volterra_http_loadbalancer" "lb-app1-tf" {
         regional_endpoint = "US"
     }
 
-    // CDN Route
+    // Routes
+    routes {
+        direct_response_route {
+            path {
+                prefix = "/healthcheck"
+            }
+            http_method = "GET"
+            route_direct_response {
+                response_code = 200
+                response_body = "HealthCheck OK"
+            }
+        }
+    }
     routes {
         simple_route {
-            http_method = "ANY"
             path {
                 regex = ".+\\.(?:jpg|jpeg|png|css|js|gif|webp|svg)(?:\\?.*)?$"
             }
+            http_method = "ANY"
             origin_pools {
                 pool {
                     name = volterra_origin_pool.pool-tf-cdn.name
                     namespace = var.f5xc_namespace
                 }
-
+            }
+            advanced_options {
+                request_headers_to_add {
+                    name = "secure-to-cdn"
+                    value = "true"
+                }
+            }
+        }
+    }
+    routes {
+        simple_route {
+            path {
+                prefix = "/"
+            }
+            http_method = "ANY"
+            headers {
+                name = "return-from-cdn"
+                exact = "true"
+            }
+            host_rewrite = var.app_domain
+            origin_pools {
+                pool {
+                    name = volterra_origin_pool.pool-tf-juiceshop.name
+                    namespace = var.f5xc_namespace
+                }
+            }
+        }
+    }
+    routes {
+        simple_route {
+            path {
+                prefix = "/"
+            }
+            http_method = "ANY"
+            origin_pools {
+                pool {
+                    name = volterra_origin_pool.pool-tf-juiceshop.name
+                    namespace = var.f5xc_namespace
+                }
             }
         }
     }

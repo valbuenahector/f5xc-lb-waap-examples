@@ -18,10 +18,12 @@ This example shows how to create an HTTP Load Balancer on a Regional Edge (RE) s
 ## Files
 
 *   `1-origin.tf`: This file defines the origin pool, which is a group of servers that will handle the traffic for the load balancer.
+*   `1a-cdn-origin.tf`: This file defines the origin pool for the CDN.
 *   `2-waap-policy.tf`: This file defines the WAAP policy that will be applied to the load balancer.
 *   `3-cdn-rules.tf`: This file defines the CDN cache rules.
 *   `4-cdn-lb.tf`: This file defines the CDN load balancer.
-*   `5-https-lb.tf`: This file defines the HTTP load balancer itself, including the domain, HTTPS configuration, WAAP policy, bot defense, CDN route, and default route to the origin pool.
+*   `5-service-policy.tf`: This file defines the service policy that will be applied to the CDN load balancer.
+*   `6-https-lb.tf`: This file defines the HTTP load balancer itself, including the domain, HTTPS configuration, WAAP policy, bot defense, CDN route, and default route to the origin pool.
 *   `provider.tf`: This file defines the Volterra provider.
 *   `variables.tf`: This file defines the variables used in the Terraform configuration.
 *   `terraform.tfvars`: This file should be created by the user to provide values for the variables defined in `variables.tf`.

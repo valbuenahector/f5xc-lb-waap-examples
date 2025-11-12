@@ -10,22 +10,22 @@ resource "volterra_origin_pool" "pool-tf-cdn" {
     // The origin server configuration
     origin_servers {
         public_name {
-            dns_name = "apptf1-cdn.wwt.xcsdemo.com"
+            dns_name = "cdn-${var.app_domain}"
         }
         labels = {}
     }
 
     // TLS configuration for the origin server
     use_tls {
-    use_host_header_as_sni = true
-    tls_config {
-        default_security = true
-    }
-    skip_server_verification = true
-    no_mtls = true
+        use_host_header_as_sni = true
+        tls_config {
+            default_security = true
+        }
+        skip_server_verification = true
+        no_mtls = true
     }
 
-    no_tls = false
+    # no_tls = false
     // The port used by the origin server
     port = "443"
     // The endpoint selection policy

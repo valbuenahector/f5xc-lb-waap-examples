@@ -9,6 +9,7 @@ promp.txt
 # Ignore temporary project folders
 f5xc-lb-waap-examples/
 terraform-f5xc/
+ce-vsite-k8s-volterra_workload/
 
 
 # Ignore Terraform state and configuration files

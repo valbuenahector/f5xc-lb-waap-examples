@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- [examples/ce-vsite-k8s-volterra_workload] Refactored `workload_manager.py` to use API Token authentication.
+- [examples/ce-vsite-k8s-volterra_workload] Updated workload deployment to use `deploy_ce_virtual_sites`.
+- [examples/ce-vsite-k8s-volterra_workload] Added `replace` and `delete` operations to `workload_manager.py`.
+- [examples/ce-vsite-k8s-volterra_workload] Added unit tests for `workload_manager.py` using `pytest`.
+- [examples/ce-vsite-k8s-volterra_workload] Added `requirements.txt` for Python dependencies.
+- Added Python script `workload_manager.py` to manage F5XC Volterra Workloads via API.
+- Added unit tests for `workload_manager.py` using `pytest` and `requests-mock`.
 - Added a detailed explanation of the CDN traffic flow to the `re-lb-waap-bot-cdn` and `re-ce-lb-waap-bot-cdn` documentation.
 - Added a "Prerequisites" section to the main `README.md` to clarify the required environment variables (`TF_VAR_f5xc_api_p12_file` and `VES_P12_PASSWORD`).
 - New example for RE and CE Load Balancer with WAAP, Bot Defense, and CDN.

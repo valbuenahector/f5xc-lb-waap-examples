@@ -1,15 +1,18 @@
 # Ignore provider schemas
 schemas/
 provider_schemas/
+openapi/
 
 # Ignore local development files
 promp.txt
 .clinerules
+.gitignore
 
 # Ignore temporary project folders
 f5xc-lb-waap-examples/
 terraform-f5xc/
 ce-vsite-k8s-volterra_workload/
+
 
 
 # Ignore Terraform state and configuration files

@@ -1,19 +1,31 @@
 # F5 XC Regional Edge (RE) and Customer Edge (CE) Load Balancer with WAAP, Bot Defense, and CDN
 
-This example demonstrates how to deploy a simple application on a Customer Edge (CE) site and protect it with F5 XC WAAP (Web Application and API Protection), Bot Defense, and CDN (Content Delivery Network) policies at the Regional Edge (RE).
+This example demonstrates how to deploy a simple application on a Customer Edge (CE) site and protect it with F5 XC WAAP (Web Application and API Protection) and CDN caching enabled directly on the HTTP Load Balancer at the Regional Edge (RE).
+
+As of the April 12, 2026 F5XC platform release, CDN caching can be enabled directly on the HTTP Load Balancer using the `caching_policy` attribute, eliminating the need for a separate CDN Load Balancer, CDN origin pool, and routing workaround that was previously required.
 
 ## Prerequisites
 
 - F5 XC Tenant
 - F5 XC API Certificate
-- AWS Account (for CE deployment)
+- An existing CE site deployed and registered
 - Terraform Cloud or Terraform CLI
 
 ## Provider Requirements
 
 | Name | Version |
 |------|---------|
-| volterra | ~> 0.11.20 |
+| volterra | 0.11.49 |
+
+## Files
+
+*   `1-origin.tf`: This file defines the origin pool pointing to the CE site private IP.
+*   `2-waap-policy.tf`: This file defines the WAAP policy that will be applied to the load balancer.
+*   `3-cdn-rules.tf`: This file defines the CDN cache rules (referenced by the HTTP LB `caching_policy`).
+*   `5-https-lb.tf`: This file defines the HTTP load balancer itself, including the domain, HTTPS configuration, WAAP policy, and CDN caching policy.
+*   `provider.tf`: This file defines the Volterra provider.
+*   `variables.tf`: This file defines the variables used in the Terraform configuration.
+*   `terraform.tfvars`: This file should be created by the user to provide values for the variables defined in `variables.tf`.
 
 ## Inputs
 
@@ -21,17 +33,10 @@ This example demonstrates how to deploy a simple application on a Customer Edge 
 |------|-------------|------|---------|:--------:|
 | `f5xc_api_url` | F5 XC API URL | `string` | n/a | yes |
 | `f5xc_tenant` | F5 XC Tenant Name | `string` | n/a | yes |
-| `f5xc_namespace` | F5 XC Namespace | `string` | n/a | yes |
+| `f5xc_namespace` | F5 XC Namespace | `string` | `"default"` | no |
 | `f5xc_api_p12_file` | Path to F5 XC API Certificate File | `string` | n/a | yes |
 | `app_domain` | Application Domain | `string` | n/a | yes |
 | `site_name` | F5 XC CE Site Name | `string` | n/a | yes |
-| `origin_dns_name` | Origin DNS Name | `string` | n/a | yes |
-
-## Outputs
-
-| Name | Description |
-|------|-------------|
-| `lb_dns_name` | DNS name of the load balancer |
 
 ## How to run
 
@@ -44,10 +49,10 @@ This example demonstrates how to deploy a simple application on a Customer Edge 
 
 ## Verification
 
-1. Access the application using the `lb_dns_name` output.
+1. Access the application using the load balancer domain.
 2. Verify that the application is accessible.
-3. Verify that the WAAP and Bot Defense policies are enforced.
-4. Verify that the CDN is caching the static content.
+3. Verify that the WAAP policy is enforced.
+4. Verify that the CDN is caching the static content (check CDN cache rules in F5XC console).
 
 ---
 ## Bot Protection Clarification
@@ -136,110 +141,70 @@ This is the **advanced Bot Defense capability** built into the HTTP LB object. I
 
 ---
 
-## CDN Flow Clarification
+## CDN Caching Flow (April 2026+ Simplified Architecture)
 
-## F5 Distributed Cloud (F5XC) — L7 Route to CDN Origin Processing
+With the April 2026 platform update, CDN caching is now configured directly on the HTTP Load Balancer via the `caching_policy` attribute. This eliminates the previous architecture that required a separate CDN Load Balancer, CDN origin pool, and L7 routing workaround.
 
-![L7 Route to CDN Origin Processing](../common/cdn-flow.png)
+### Previous Architecture (Deprecated)
 
-This diagram illustrates the **two possible traffic paths** when an F5XC **HTTP Load Balancer (WAAP)** is configured with an **L7 route** that forwards specific requests (e.g., static content) to a **CDN distribution**.  
-The numbered callouts (①–⑥) in the image correspond to the detailed steps below.
+The old approach required:
+1. A separate `volterra_cdn_loadbalancer` resource
+2. A dedicated CDN origin pool pointing to the CDN LB domain
+3. L7 routes on the HTTP LB to forward static content to the CDN origin
+4. Traffic flowing through an extra hop: HTTP LB → CDN origin pool → CDN LB → origin
 
----
+### Current Architecture (Simplified)
 
-## 1. Overview of Flow Types
+The new approach uses a single `caching_policy` block on the HTTP Load Balancer:
 
-| Flow Type | Description |
-|------------|--------------|
-| **Flow 1 – Route Match to CDN** | The HTTP LB identifies requests that match a specific L7 route (e.g., static assets) and forwards them to the CDN for caching and delivery. |
-| **Flow 2 – No Route Match** | Requests that don’t match the CDN route (e.g., API calls, HTML) are sent directly to the origin application. |
+```
+caching_policy {
+    default_cache_action {
+        cache_ttl_default = "3600s"    # Respect origin headers, fallback to 1h
+    }
+    custom_cache_rule {
+        cdn_cache_rules { ... }        # Reference to volterra_cdn_cache_rule objects
+    }
+}
+```
 
----
-
-## 2. Flow 1 – L7 Route Match (Static Content via CDN)
-
-When the HTTP LB route matches static content (CSS, JS, JPG, etc.), the following occurs:
-
-### **Step-by-Step Breakdown**
+### How It Works
 
 1. **Client → HTTP Load Balancer (WAAP)**
    - The client sends a request to the HTTP LB endpoint on the F5XC Regional Edge (RE).
-   - SSL decryption occurs, and WAAP security policies (WAF, Bot Defense, DDoS) are applied.
+   - SSL decryption occurs, and WAAP security policies (WAF, DDoS) are applied.
 
-2. **L7 Route Evaluation**
-   - The HTTP LB evaluates request routes and detects a **regex match** for static content.
-   - The request is forwarded to the **CDN distribution** (caching layer) defined as an origin.
+2. **CDN Cache Evaluation**
+   - The HTTP LB evaluates the request against the configured `caching_policy`.
+   - Custom cache rules determine cacheability based on path patterns (e.g., CSS/JS files cached for 1 day, images for 7 days).
+   - Bypass rules prevent caching of dynamic paths (e.g., `/acs/`, `/api/`).
 
-3. **CDN Cache Check**
-   - The CDN examines its cache index to determine if the object already exists.
-   - Example: The requested image `logo.png` may already be cached.
-
-4. **Cache Decision**
-   - **Cache Hit:** The object is retrieved **from disk** within the CDN edge node.
-   - **Cache Miss:** The CDN requests the content from the configured **origin (CE site)**.
-
-5. **Proxy Response to HTTP LB**
-   - The CDN returns the cached or freshly fetched object back to the HTTP LB on the RE.
-   - SSL re-encryption occurs between the CDN and RE as part of secure proxying.
-
-6. **HTTP LB → Client**
-   - The HTTP LB returns the object to the client.
-   - From the client’s perspective, the request completes at the same HTTP LB endpoint.
-
-### **Flow Summary**
-
-`Client → HTTP LB → CDN → (Cache/Origin) → HTTP LB → Client`
-
-This flow optimizes delivery of static assets using CDN caching and offloads traffic from the origin.
-
----
-
-## 3. Flow 2 – No Route Match (Dynamic Requests via Origin)
-
-When the HTTP LB route does **not** match the CDN route (for example, HTML pages, APIs, or dynamic content):
-
-### **Step-by-Step Breakdown**
-
-1. **Client → HTTP Load Balancer (WAAP)**
-   - The client request lands on the same HTTP LB endpoint.
-   - SSL termination and WAAP policy inspection occur.
-
-2. **L7 Route Evaluation**
-   - No route match is found for the requested URI (e.g., `/api/v1/transactions`).
-   - The HTTP LB forwards the request **directly to the origin pool** (the CE or backend service).
-
-3. **Origin Response**
-   - The backend application (origin) processes the request and sends a response to the HTTP LB.
+3. **Cache Decision**
+   - **Cache Hit:** The cached content is served directly from the CDN edge, without reaching the CE origin.
+   - **Cache Miss:** The request is forwarded to the CE origin pool (private IP on the CE site), and the response is cached per the cache rules.
 
 4. **HTTP LB → Client**
-   - The HTTP LB returns the origin’s response to the client.
-   - This request **bypasses CDN entirely**, maintaining real-time interaction with the backend.
+   - The response is returned to the client, whether from cache or origin.
 
-### **Flow Summary**
+### Flow Summary
 
-`Client → HTTP LB → Origin → Client`
+| Request Type | Flow |
+|-------------|------|
+| **Cacheable content (cache hit)** | `Client → HTTP LB (CDN cache) → Client` |
+| **Cacheable content (cache miss)** | `Client → HTTP LB → CE Origin → HTTP LB (cache + respond) → Client` |
+| **Non-cacheable / bypass** | `Client → HTTP LB → CE Origin → Client` |
 
-This flow is ideal for dynamic, API-driven, or authenticated content that should not be cached.
+### Limitations
 
----
+- CDN caching is only supported on HTTPS-serving HTTP Load Balancers (not HTTP-only)
+- Mutual TLS (mTLS) configurations are incompatible with CDN caching
+- Source IP stickiness cannot be used simultaneously with CDN caching
+- HTTP/2.0-only deployments are not supported
 
-## 4. Health Checks
+### Key Takeaways
 
-- Health checks (shown in green in the diagram) are performed **from the CDN distribution to the origin (CE)**.
-- These ensure backend availability even if the CDN route is configured for caching or bypass.
-
----
-
-## 5. Key Takeaways
-
-- The **HTTP LB** acts as the **decision point**, performing **L7 route evaluation** before determining whether to forward to the **CDN** or **Origin**.
-- **CDN caching** reduces latency and offloads repetitive requests.
-- **Direct-origin routing** ensures real-time processing for API or user-specific content.
-- Both flows benefit from **end-to-end security posture** (TLS, WAF, Bot, and DDoS protection).
-
----
-
-**References:**
-- [F5XC HTTP Load Balancer (WAAP)](https://docs.cloud.f5.com/docs-v2/applications/http-load-balancer)
-- [F5XC CDN Load Balancer](https://docs.cloud.f5.com/docs-v2/applications/cdn)
-- [F5XC Caching and Route Policies](https://docs.cloud.f5.com/docs-v2/applications/caching)
+- **No separate CDN LB required** -- caching is handled directly by the HTTP LB.
+- **CDN cache rules** (`volterra_cdn_cache_rule`) are still used for fine-grained control and referenced via `caching_policy.custom_cache_rule`.
+- **Simplified routing** -- no need for L7 routes to forward static content to a CDN origin pool.
+- All traffic benefits from the **full security stack** (WAAP, DDoS) regardless of caching.
+- The CE origin is accessed via private IP through the site, keeping backend traffic off the public internet.

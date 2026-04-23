@@ -67,11 +67,11 @@ resource "volterra_http_loadbalancer" "lb-app1-tf" {
                 }
                 mitigation {
                     block {
-                        status = "PaymentRequired"
+                        status = "MaliciousBot"
                     }
                 }
                 path {
-                    path = "/rest/user/login"
+                    path = "/login"
                 }
             }
         }

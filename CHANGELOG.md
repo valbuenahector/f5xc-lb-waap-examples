@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- [examples/re-lb-waap-bot-cdn] Migrated CDN caching from separate CDN Load Balancer to inline `caching_policy` on the HTTP Load Balancer, following the April 12, 2026 F5XC platform update.
+- [examples/re-lb-waap-bot-cdn] Upgraded Volterra provider from 0.11.44 to 0.11.49.
+- [examples/re-lb-waap-bot-cdn] Simplified routing by removing CDN routing workaround (static asset route, return-from-cdn header route, catch-all route).
+- [examples/re-lb-waap-bot-cdn] Removed `source_ip_stickiness` (incompatible with CDN caching).
+- [examples/re-lb-waap-bot-cdn] Fixed conflicting `use_tls` and `no_tls` on origin pool.
+- [examples/re-ce-lb-waap-bot-cdn] Migrated CDN caching from separate CDN Load Balancer to inline `caching_policy` on the HTTP Load Balancer, following the April 12, 2026 F5XC platform update.
+- [examples/re-ce-lb-waap-bot-cdn] Pinned Volterra provider to 0.11.49.
+- [examples/re-ce-lb-waap-bot-cdn] Simplified routing by removing CDN origin pool route and default catch-all route in favor of `default_route_pools`.
+- [examples/re-ce-lb-waap-bot-cdn] Updated WAAP policy to use `default_detection_settings` for compatibility with provider 0.11.49.
+
+### Removed
+- [examples/re-lb-waap-bot-cdn] Removed `4-cdn-lb.tf` (separate CDN Load Balancer no longer needed).
+- [examples/re-lb-waap-bot-cdn] Removed `5-service-policy.tf` (header-based service policy workaround no longer needed).
+- [examples/re-lb-waap-bot-cdn] Removed `1a-cdn-origin.tf` (CDN origin pool no longer needed).
+- [examples/re-ce-lb-waap-bot-cdn] Removed `4-cdn-lb.tf` (separate CDN Load Balancer no longer needed).
+- [examples/re-ce-lb-waap-bot-cdn] Removed `1a-cdn-origin.tf` (CDN origin pool no longer needed).
+
 ### Added
 - [examples/ce-vsite-k8s-volterra_workload] Refactored `workload_manager.py` to use API Token authentication.
 - [examples/ce-vsite-k8s-volterra_workload] Updated workload deployment to use `deploy_ce_virtual_sites`.

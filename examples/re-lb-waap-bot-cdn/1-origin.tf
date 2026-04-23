@@ -15,16 +15,7 @@ resource "volterra_origin_pool" "pool-tf-juiceshop" {
         labels = {}
     }
 
-    // TLS configuration for the origin server
-    use_tls {
-    use_host_header_as_sni = true
-    tls_config {
-        default_security = true
-    }
-    skip_server_verification = true
-    no_mtls = true
-    }
-
+    // No TLS - origin is plain HTTP on port 80
     no_tls = true
     // The port used by the origin server
     port = "80"

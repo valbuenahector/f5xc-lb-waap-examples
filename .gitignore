@@ -5,6 +5,7 @@ openapi/
 
 # Ignore local development files
 promp.txt
+CLAUDE.md
 .clinerules
 .gitignore
 

@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [examples/dns-lb-gtm-fallback] New example — first DNS Load Balancer example in the library. Demonstrates converting a BIG-IP GTM pool's `fallback-ip` to F5XC using an AAAA `volterra_dns_lb_pool` primary pool with priority-ordered members plus a dedicated fallback pool referenced via `volterra_dns_load_balancer.fallback_pool`.
 - [docs/dns-lb-gtm-fallback.md] Added documentation covering the GTM-to-F5XC mapping and known limitations (unconfirmed `fallback_pool` trigger scope on all-members-unhealthy; `aaaa_pool` has no `health_check`/`disable_health_check` argument in provider 0.11.39-0.11.49).
+- [examples/dns-lb-a-global-availability] New example — A-record DNS Load Balancer variant of `dns-lb-gtm-fallback`, converting a BIG-IP GTM `a` pool in `global-availability` mode to an `a_pool` `volterra_dns_lb_pool` with priority-ordered members plus a dedicated fallback pool. Built for Ally Bank's "Ready to Migrate" WideIP tracker category (113 wide IPs use this exact GTM pattern).
+- [docs/dns-lb-a-global-availability.md] Added documentation covering the GTM-to-F5XC mapping, `a_pool`'s `health_check`/`disable_health_check` support (unlike `aaaa_pool`), and the same unconfirmed `fallback_pool` all-members-unhealthy trigger scope noted in `dns-lb-gtm-fallback`.
 
 ### Changed
 - [examples/re-lb-waap-bot-cdn] Migrated CDN caching from separate CDN Load Balancer to inline `caching_policy` on the HTTP Load Balancer, following the April 12, 2026 F5XC platform update.

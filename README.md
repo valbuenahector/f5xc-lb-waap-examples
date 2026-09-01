@@ -13,6 +13,7 @@ This repository provides verified, runnable Terraform examples for F5XC Load Bal
 *   [RE on CE WAAP and Bot Defense](./docs/re-ce-lb-waap-bot.md)
 *   [RE on CE WAAP, Bot Defense and CDN](./docs/re-ce-lb-waap-bot-cdn.md)
 *   [DNS Load Balancer - GTM Fallback Migration](./docs/dns-lb-gtm-fallback.md)
+*   [DNS Load Balancer - A Record Global Availability](./docs/dns-lb-a-global-availability.md)
 
 ## Prerequisites
 
